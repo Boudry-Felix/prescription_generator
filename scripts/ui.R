@@ -5,7 +5,7 @@ fluidPage(
       fileInput("template", "Choose Prescription Template (Image/PDF)", accept = c("image/png", "image/jpeg", "application/pdf")),
       fileInput("patients", "Choose Patient List (CSV)", accept = ".csv"),
       fileInput("signature", "Choose Signature Image (PNG/JPG)", accept = c("image/png", "image/jpeg")),
-      textInput("personal_text", "Enter Personal Text", value = ""),
+      textAreaInput("personal_text", "Enter Personal Text", value = ""),
       radioButtons("output_type", "Output Type", choices = list("Individual PDFs" = "individual", "Single PDF" = "single")),
       actionButton("generate", "Generate Prescriptions"),
       verbatimTextOutput("coords")
@@ -18,7 +18,7 @@ fluidPage(
 
   # Add custom CSS for draggable fields
   tags$head(tags$style(HTML("
-.draggable-field {
+  .draggable-field {
   border: 1px solid #ccc;
   padding: 5px;
   cursor: move;

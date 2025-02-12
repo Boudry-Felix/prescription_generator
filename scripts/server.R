@@ -5,7 +5,7 @@ observeEvent(input$template, {
   template_path <- input$template$datapath
 
   if (grepl("\\.pdf$", template_path, ignore.case = TRUE)) {
-    pdf_images <- pdf_convert(template_path, format = "png", dpi = 72)
+    pdf_images <- pdf_convert(template_path, format = "png", dpi = 150)
     encoded_images <- lapply(pdf_images, function(img) {
       base64enc::dataURI(file = img, mime = "image/png")
     })
@@ -23,8 +23,8 @@ output$template_display <- renderUI({
     id = "template_container", # Parent container for template and fields
     style = paste0(
       "position: relative;", # Ensure children (draggable fields) are positioned relative to this
-      "width: 100%;",
-      "height: 600px;", # Adjust based on template size
+      "width: 600px;",
+      "height: 850px;", # Adjust based on template size
       "background-image: url(", template_base64(), ");",
       "background-size: contain;",
       "background-repeat: no-repeat;",
@@ -36,8 +36,8 @@ output$template_display <- renderUI({
     jqui_draggable(div(id = "name_field", "Name", class = "draggable-field", style = "top: 50px; left: 50px;")),
     jqui_draggable(div(id = "surname_field", "Surname", class = "draggable-field", style = "top: 100px; left: 50px;")),
     jqui_draggable(div(id = "dob_field", "Date of Birth", class = "draggable-field", style = "top: 150px; left: 50px;")),
-    jqui_draggable(div(id = "signature_field", "Signature", class = "draggable-field", style = "top: 200px; left: 50px;")),
-    jqui_draggable(div(id = "text_field", "Text", class = "draggable-field", style = "top: 250px; left: 50px;"))
+    jqui_draggable(div(id = "text_field", "Text", class = "draggable-field", style = "top: 200px; left: 50px;")),
+    jqui_draggable(div(id = "signature_field", "Signature", class = "draggable-field", style = "top: 250px; left: 50px;"))
   )
 })
 
@@ -63,26 +63,26 @@ observeEvent(input$generate, {
   patients <- read.csv(input$patients$datapath)
 
   field_positions <- list(
-    name = paste0("+", coords$name_field$left, "+", coords$name_field$top),
-    surname = paste0("+", coords$surname_field$left, "+", coords$surname_field$top),
-    dob = paste0("+", coords$dob_field$left, "+", coords$dob_field$top),
-    signature = paste0("+", coords$signature_field$left, "+", coords$signature_field$top),
-    text = paste0("+", coords$text_field$left, "+", coords$text_field$top)
+    name = paste0("+", coords$name_field$left * 1.4, "+", coords$name_field$top * 1.4),
+    surname = paste0("+", coords$surname_field$left * 1.4, "+", coords$surname_field$top * 1.4),
+    dob = paste0("+", coords$dob_field$left * 1.4, "+", coords$dob_field$top * 1.4),
+    signature = paste0("+", coords$signature_field$left * 1.4, "+", coords$signature_field$top * 1.4),
+    text = paste0("+", coords$text_field$left * 1.4, "+", coords$text_field$top * 1.4)
   )
 
   pdf_files <- lapply(1:nrow(patients), function(i) {
     patient <- patients[i, ]
     output_file <- tempfile(fileext = ".pdf")
 
-    template_image <- image_read(input$template$datapath)
-    template_image <- image_annotate(template_image, text = patient$name, location = field_positions$name, size = 20)
-    template_image <- image_annotate(template_image, text = patient$surname, location = field_positions$surname, size = 20)
-    template_image <- image_annotate(template_image, text = patient$date, location = field_positions$dob, size = 20)
-    template_image <- image_annotate(template_image, text = input$personal_text, location = field_positions$text, size = 20)
+    template_image <- image_read(input$template$datapath, density = "100x100")
+    template_image <- image_annotate(template_image, text = patient$name, location = field_positions$name, size = 30)
+    template_image <- image_annotate(template_image, text = patient$surname, location = field_positions$surname, size = 30)
+    template_image <- image_annotate(template_image, text = patient$date, location = field_positions$dob, size = 30)
+    template_image <- image_annotate(template_image, text = input$personal_text, location = field_positions$text, size = 30)
     signature_image <- image_read(input$signature$datapath)
     template_image <- image_composite(template_image, signature_image, offset = field_positions$signature)
 
-    image_write(template_image, path = output_file, format = "pdf")
+    image_write(template_image, path = output_file, format = "pdf", density = "100x100")
     return(output_file)
   })
 
