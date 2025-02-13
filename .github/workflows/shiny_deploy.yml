@@ -39,4 +39,4 @@ jobs:
         SHINYAPPSIO_SECRET: ${{ secrets.SECRET }}
       run: |
         Rscript -e "rsconnect::setAccountInfo(name='${SHINYAPPSIO_ACCOUNT}', token='${SHINYAPPSIO_TOKEN}', secret='${SHINYAPPSIO_SECRET}')"
-        Rscript -e "rsconnect::deployApp(appDir = '.', appName = 'prescription_generator')"
+        Rscript -e "rsconnect::deployApp(appDir = '.', appName = 'prescription_generator', forceUpdate = TRUE)"
