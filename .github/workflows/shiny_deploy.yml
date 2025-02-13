@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - Shiny-publish
   pull_request:
     branches:
       - main
