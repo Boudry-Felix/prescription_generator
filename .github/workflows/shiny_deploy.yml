@@ -20,17 +20,8 @@ jobs:
     - name: Set up R
       uses: r-lib/actions/setup-r@v2
 
-    - name: Install renv
-      run: |
-        Rscript -e 'install.packages("renv")'
-
-    - name: Init renv environment
-      run: |
-        Rscript -e 'renv::init()'
-
     - name: Restore renv environment
-      run: |
-        Rscript -e 'renv::restore()'
+      uses: r-lib/actions/setup-renv@v2
 
     - name: Deploy to shinyapps.io
       env:
