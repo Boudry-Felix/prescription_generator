@@ -26,6 +26,7 @@ jobs:
 
     - name: Restore renv environment
       run: |
+        Rscript -e 'renv::init()'
         Rscript -e 'renv::restore()'
 
     - name: Deploy to shinyapps.io
