@@ -24,9 +24,12 @@ jobs:
       run: |
         Rscript -e 'install.packages("renv")'
 
-    - name: Restore renv environment
+    - name: Init renv environment
       run: |
         Rscript -e 'renv::init()'
+
+    - name: Restore renv environment
+      run: |
         Rscript -e 'renv::restore()'
 
     - name: Deploy to shinyapps.io
