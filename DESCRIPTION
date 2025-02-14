@@ -1,0 +1,21 @@
+Title: Prescription Generator
+Authors@R:
+    person(
+        "Félix", "Boudry",
+        email = "felix.boudry@univ-perp.fr",
+        role = c("aut", "cre"),
+        comment = c(ORCID = "0000-0003-4597-0310")
+)
+Description: Shiny app to generate a multitude of similar prescriptions based on a list of subjects.
+License: `use_mit_license()`
+Encoding: UTF-8
+URL: https://cr8mnj-felix-boudry.shinyapps.io/prescription_generator/
+BugReports: https://github.com/Boudry-Felix/prescription_generator/issues
+Imports:
+    rsconnect,
+    shiny,
+    shinyFiles,
+    shinyjqui,
+    pdftools,
+    magick
+
